@@ -103,6 +103,18 @@ python3 scripts/doccheck.py --list-rules
 | `soft-break` | 줄 끝 공백 두 칸 없는 줄바꿈 | warning |
 | `trailing-period` | 종결어미 뒤 마침표 | suggestion |
 
+규칙마다 무엇이 어떻게 바뀌는지는 다음과 같습니다
+
+- **`em-dash`**: `web — 웹 화면` → `web: 웹 화면`
+- **`heading-not-noun`**: `## 왜 캐시를 껐나` → `## 캐시 유지 시간`
+- **`heading-bare-numeral`**: `## 담는 것 여섯` → `## 필수 항목 여섯`
+- **`line-multi-sentence`**: `캐시를 껐다. 값이 오래됐다.` → 두 줄로 나눕니다
+- **`mechanical-parallel`**: `첫째, 읽는다 둘째, 저장한다` → 목록 항목 두 개로 나눕니다
+- **`trailing-period`**: `캐시를 껐다.` → `캐시를 껐다`
+- **`table-cell-long`**: 문장이 든 표 칸을 정의 목록(굵은 항목 + 설명)으로 바꿉니다
+- **`paragraph-cram`**: 다섯 줄이 넘는 문단을 주제가 바뀔 때 빈 줄을 넣어 나눕니다
+- **`soft-break`**: 문단 안에서 줄을 바꾼 줄의 끝에 공백 두 칸을 붙입니다
+
 코드 블록과 인라인 코드는 그대로 실행되거나 복사되는 부분이라 문체를 고치면 동작이 달라지므로, 스크립트가 검사하지 않습니다
 
 `table-cell-long`은 인라인 코드와 링크 주소를 뺀 칸의 글자 수가 30자를 넘으면 검출하며, `**굵게**` 같은 표시 문자도 글자 수에 들어갑니다  
