@@ -109,6 +109,9 @@ _OFF_COMMENT = re.compile(r"<!--\s*doccheck:\s*off([^>]*)-->")
 # 코드 블록 울타리, 백틱과 물결 둘 다 쓰이고 네 개 이상으로 감싸기도 한다
 _FENCE = re.compile(r"^(`{3,}|~{3,})")
 
+# 가로줄, 화면에서 앞뒤 줄을 갈라 놓으므로 문단 경계로 본다
+_RULE_LINE = re.compile(r"^(-{3,}|\*{3,}|_{3,})$")
+
 
 @dataclass
 class Doc:
@@ -151,8 +154,8 @@ class Doc:
             # 표시만 있고 앞에 글이 없으면 파일 전체를 끄는 선언으로 본다
             if not _OFF_COMMENT.sub("", l).strip():
                 file_off |= rules or {"*"}
-            else:
-                skip.add(i)
+            # 주석 줄 자체는 사람이 읽는 산문이 아니므로 어느 쪽이든 건너뛴다
+            skip.add(i)
         return cls(path=path, lines=raw, skip_lines=skip, file_off=file_off)
 
     def is_enabled(self, rule: str) -> bool:
@@ -349,7 +352,7 @@ def _blocks(doc: Doc, kind: str = "prose") -> list[list[tuple[int, str]]]:
         stripped = raw.strip()
         body = doc.prose_text(raw).strip()
         # 코드 블록과 frontmatter 는 화면에서 앞뒤 줄을 갈라 놓으므로 덩어리 경계로 본다
-        if i in doc.skip_lines or not stripped or stripped.startswith(("|", "#")):
+        if i in doc.skip_lines or not stripped or stripped.startswith(("|", "#")) or _RULE_LINE.match(stripped):
             flush()
             continue
         if stripped.startswith(">"):
