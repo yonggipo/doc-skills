@@ -1,0 +1,29 @@
+{
+  "description": "세션을 시작할 때 한국어 문서화 지침을 넣고, 마크다운 문서를 쓰거나 고친 뒤 규칙 위반을 알린다",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/posttool.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/session.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

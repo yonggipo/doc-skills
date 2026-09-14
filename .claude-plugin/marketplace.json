@@ -1,0 +1,17 @@
+{
+  "name": "doc-skills",
+  "owner": {
+    "name": "yonggipo"
+  },
+  "metadata": {
+    "description": "한국어 문서화 규칙 검사 스킬 배포용 마켓플레이스",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "doc-skills",
+      "source": "./",
+      "description": "한국어 문서화 규칙을 검사한다. 형태로 판별할 수 있는 규칙은 스크립트가 검사하고, 문맥을 읽어야 하는 규칙은 LLM이 판단한다."
+    }
+  ]
+}
